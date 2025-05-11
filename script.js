@@ -1,5 +1,24 @@
-const button = document.getElementById("patButton");
 const video = document.getElementById("bg-video");
+const loader = document.getElementById("loader");
+
+// Wait until video is fully ready to play through
+video.addEventListener("canplaythrough", () => {
+  // Double check video metadata is loaded
+  if (video.readyState >= 4) {
+    loader.style.display = "none";
+  }
+});
+
+// Fallback: in case 'canplaythrough' doesn't fire
+video.addEventListener("loadeddata", () => {
+  setTimeout(() => {
+    if (video.readyState >= 4) {
+      loader.style.display = "none";
+    }
+  }, 1000); // slight delay for better UX
+});
+
+const button = document.getElementById("patButton");
 const messageBox = document.getElementById("messageBox");
 
 const messages = [
