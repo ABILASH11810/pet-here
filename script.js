@@ -24,26 +24,27 @@ const messages = [
 
 let videoTimeout;
 
-// Hide loader once video is ready to buffer
-video.addEventListener("canplaythrough", () => {
-  if (video.readyState >= 4) {
+// Hide loader once the video is ready to play
+function hideLoaderWhenReady() {
+  if (video.readyState >= 3) {
     loader.style.display = "none";
   }
+}
+
+video.addEventListener("canplaythrough", hideLoaderWhenReady);
+video.addEventListener("loadeddata", () => {
+  setTimeout(hideLoaderWhenReady, 500); // Small delay for smoother UX
 });
 
-video.addEventListener("loadeddata", () => {
-  setTimeout(() => {
-    if (video.readyState >= 4) {
-      loader.style.display = "none";
-    }
-  }, 1000);
-});
+// Fallback loader hide if video takes too long
+setTimeout(() => {
+  loader.style.display = "none";
+}, 5000);
 
 button.addEventListener("click", () => {
-  // Hide the image, show the video only when ready
   image.style.display = "none";
-
   video.style.display = "block";
+  video.currentTime = 0; // Restart video from beginning
 
   video.play().then(() => {
     const random = Math.floor(Math.random() * messages.length);
@@ -53,10 +54,7 @@ button.addEventListener("click", () => {
     void messageBox.offsetWidth;
     messageBox.style.animation = "fadeScale 0.4s ease forwards";
 
-    if (videoTimeout) {
-      clearTimeout(videoTimeout);
-    }
-
+    if (videoTimeout) clearTimeout(videoTimeout);
     videoTimeout = setTimeout(() => {
       video.pause();
     }, 10000);
