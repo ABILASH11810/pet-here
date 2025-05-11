@@ -24,58 +24,40 @@ const messages = [
 
 let videoTimeout;
 
-// Smoothly hide the loader
-function hideLoader() {
-  loader.style.opacity = "0";
-  setTimeout(() => {
-    loader.style.display = "none";
-  }, 500);
-}
-
-// Wait until video is ready (even if not visible yet)
+// Wait for video to be ready
 video.addEventListener("canplaythrough", () => {
   if (video.readyState >= 4) {
-    hideLoader();
+    loader.style.display = "none";
   }
 });
 
 video.addEventListener("loadeddata", () => {
   setTimeout(() => {
     if (video.readyState >= 4) {
-      hideLoader();
+      loader.style.display = "none";
     }
   }, 1000);
 });
 
-// Button behavior
 button.addEventListener("click", () => {
-  // Hide image, show and play video
   image.style.display = "none";
   video.style.display = "block";
   video.play();
 
-  // Reset timeout if needed
-  if (videoTimeout) {
-    clearTimeout(videoTimeout);
-  }
+  if (videoTimeout) clearTimeout(videoTimeout);
 
-  // Show random motivational message
   const random = Math.floor(Math.random() * messages.length);
   messageBox.textContent = messages[random];
   messageBox.style.display = "block";
 
-  // Trigger animation
   messageBox.style.animation = "none";
-  void messageBox.offsetWidth;
+  void messageBox.offsetWidth; // reset animation
   messageBox.style.animation = "fadeScale 0.4s ease forwards";
 
-  // Pause video after 10 seconds
   videoTimeout = setTimeout(() => {
     video.pause();
+    video.currentTime = 0;
+    video.style.display = "none";
+    image.style.display = "block";
   }, 10000);
-});
-
-// Ensure video is paused initially
-window.addEventListener("DOMContentLoaded", () => {
-  video.pause();
 });
