@@ -24,7 +24,7 @@ const messages = [
 
 let videoTimeout;
 
-// Wait for video to be ready
+// Hide loader once video is ready to buffer
 video.addEventListener("canplaythrough", () => {
   if (video.readyState >= 4) {
     loader.style.display = "none";
@@ -40,24 +40,27 @@ video.addEventListener("loadeddata", () => {
 });
 
 button.addEventListener("click", () => {
+  // Hide the image, show the video only when ready
   image.style.display = "none";
+
   video.style.display = "block";
-  video.play();
 
-  if (videoTimeout) clearTimeout(videoTimeout);
+  video.play().then(() => {
+    const random = Math.floor(Math.random() * messages.length);
+    messageBox.textContent = messages[random];
+    messageBox.style.display = "block";
+    messageBox.style.animation = "none";
+    void messageBox.offsetWidth;
+    messageBox.style.animation = "fadeScale 0.4s ease forwards";
 
-  const random = Math.floor(Math.random() * messages.length);
-  messageBox.textContent = messages[random];
-  messageBox.style.display = "block";
+    if (videoTimeout) {
+      clearTimeout(videoTimeout);
+    }
 
-  messageBox.style.animation = "none";
-  void messageBox.offsetWidth; // reset animation
-  messageBox.style.animation = "fadeScale 0.4s ease forwards";
-
-  videoTimeout = setTimeout(() => {
-    video.pause();
-    video.currentTime = 0;
-    video.style.display = "none";
-    image.style.display = "block";
-  }, 10000);
+    videoTimeout = setTimeout(() => {
+      video.pause();
+    }, 10000);
+  }).catch((error) => {
+    console.error("Video failed to play:", error);
+  });
 });
