@@ -3,6 +3,7 @@ const image = document.getElementById("bg-image");
 const loader = document.getElementById("loader");
 const button = document.getElementById("patButton");
 const messageBox = document.getElementById("messageBox");
+const music = document.getElementById("bg-music");
 
 const messages = [
   "Hope is a good thing, maybe the best of things and no good thing ever dies.",
@@ -24,7 +25,6 @@ const messages = [
 
 let videoTimeout;
 
-// Hide loader once video is ready
 function hideLoaderWhenReady() {
   if (video.readyState >= 3) {
     loader.style.display = "none";
@@ -36,21 +36,20 @@ video.addEventListener("loadeddata", () => {
   setTimeout(hideLoaderWhenReady, 500);
 });
 
-// Fallback loader hide if video takes too long
 setTimeout(() => {
   loader.style.display = "none";
 }, 5000);
 
 button.addEventListener("click", () => {
-  // Start video from beginning
   video.currentTime = 0;
-
-  // Begin fade transition
-  image.classList.add("hidden-fade");
   video.style.display = "block";
+  image.classList.add("hidden-fade");
   video.classList.remove("hidden-fade");
 
   video.play().then(() => {
+    music.currentTime = 0;
+    music.play();
+
     const random = Math.floor(Math.random() * messages.length);
     messageBox.textContent = messages[random];
     messageBox.style.display = "block";
@@ -61,6 +60,7 @@ button.addEventListener("click", () => {
     if (videoTimeout) clearTimeout(videoTimeout);
     videoTimeout = setTimeout(() => {
       video.pause();
+      music.pause();
     }, 10000);
   }).catch((error) => {
     console.error("Video failed to play:", error);
