@@ -27,18 +27,7 @@ body {
 }
 
 .spinner {
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid #ffe6cf;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 1s linear infinite;
-  margin-bottom: 16px;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  display: none; /* This hides the spinner */
 }
 
 #bg-image {
@@ -64,6 +53,7 @@ body {
 }
 
 #patButton {
+
   position: absolute;
   bottom: 20px;
   left: 50%;
@@ -73,8 +63,8 @@ body {
   border: 2px solid white;
   border-radius: 50px;
   padding: 12px 24px;
+  font-family: 'Times New Roman', Times, serif, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 18px;
-  font-family:'Times New Roman', Times, serif;
   z-index: 2;
   cursor: pointer;
 }
