@@ -1,23 +1,6 @@
 const video = document.getElementById("bg-video");
+const image = document.getElementById("bg-image");
 const loader = document.getElementById("loader");
-
-// Wait until video is fully ready to play through
-video.addEventListener("canplaythrough", () => {
-  // Double check video metadata is loaded
-  if (video.readyState >= 4) {
-    loader.style.display = "none";
-  }
-});
-
-// Fallback: in case 'canplaythrough' doesn't fire
-video.addEventListener("loadeddata", () => {
-  setTimeout(() => {
-    if (video.readyState >= 4) {
-      loader.style.display = "none";
-    }
-  }, 1000); // slight delay for better UX
-});
-
 const button = document.getElementById("patButton");
 const messageBox = document.getElementById("messageBox");
 
@@ -41,22 +24,58 @@ const messages = [
 
 let videoTimeout;
 
+// Smoothly hide the loader
+function hideLoader() {
+  loader.style.opacity = "0";
+  setTimeout(() => {
+    loader.style.display = "none";
+  }, 500);
+}
+
+// Wait until video is ready (even if not visible yet)
+video.addEventListener("canplaythrough", () => {
+  if (video.readyState >= 4) {
+    hideLoader();
+  }
+});
+
+video.addEventListener("loadeddata", () => {
+  setTimeout(() => {
+    if (video.readyState >= 4) {
+      hideLoader();
+    }
+  }, 1000);
+});
+
+// Button behavior
 button.addEventListener("click", () => {
+  // Hide image, show and play video
+  image.style.display = "none";
+  video.style.display = "block";
   video.play();
 
+  // Reset timeout if needed
   if (videoTimeout) {
     clearTimeout(videoTimeout);
   }
 
+  // Show random motivational message
   const random = Math.floor(Math.random() * messages.length);
   messageBox.textContent = messages[random];
   messageBox.style.display = "block";
 
+  // Trigger animation
   messageBox.style.animation = "none";
   void messageBox.offsetWidth;
   messageBox.style.animation = "fadeScale 0.4s ease forwards";
 
+  // Pause video after 10 seconds
   videoTimeout = setTimeout(() => {
     video.pause();
   }, 10000);
+});
+
+// Ensure video is paused initially
+window.addEventListener("DOMContentLoaded", () => {
+  video.pause();
 });
