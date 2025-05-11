@@ -24,7 +24,7 @@ const messages = [
 
 let videoTimeout;
 
-// Hide loader once the video is ready to play
+// Hide loader once video is ready
 function hideLoaderWhenReady() {
   if (video.readyState >= 3) {
     loader.style.display = "none";
@@ -33,7 +33,7 @@ function hideLoaderWhenReady() {
 
 video.addEventListener("canplaythrough", hideLoaderWhenReady);
 video.addEventListener("loadeddata", () => {
-  setTimeout(hideLoaderWhenReady, 500); // Small delay for smoother UX
+  setTimeout(hideLoaderWhenReady, 500);
 });
 
 // Fallback loader hide if video takes too long
@@ -42,9 +42,13 @@ setTimeout(() => {
 }, 5000);
 
 button.addEventListener("click", () => {
-  image.style.display = "none";
+  // Start video from beginning
+  video.currentTime = 0;
+
+  // Begin fade transition
+  image.classList.add("hidden-fade");
   video.style.display = "block";
-  video.currentTime = 0; // Restart video from beginning
+  video.classList.remove("hidden-fade");
 
   video.play().then(() => {
     const random = Math.floor(Math.random() * messages.length);
