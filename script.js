@@ -20,7 +20,32 @@ const messages = [
   "It’s only after we’ve lost everything that we’re free to do anything.",
   "We are infinite.",
   "When you die, you can't see sunsets!",
-  "You’ve always had the power, my dear. You just had to learn it for yourself."
+  "You’ve always had the power, my dear. You just had to learn it for yourself.",
+   "Believe you can and you're halfway there.",
+    "Every day is a new beginning.",
+    "You are stronger than you think.",
+    "Choose to shine.",
+    "Small steps every day lead to big results.",
+    "Positive mind. Positive vibes. Positive life.",
+    "Start where you are. Use what you have. Do what you can.",
+    "Your only limit is your mind.",
+    "Be the reason someone smiles today.",
+    "Happiness is a choice.",
+    "You’ve got this!",
+    "Don’t wait for the storm to pass, learn to dance in the rain.",
+    "Progress, not perfection.",
+    "The best is yet to come.",
+    "Do something today that your future self will thank you for.",
+    "Dream big. Work hard. Stay humble.",
+    "Keep going. Everything you need will come to you.",
+    "Inhale confidence, exhale doubt.",
+    "The comeback is always stronger than the setback.",
+    "You are capable of amazing things.",
+    "Kindness changes everything.",
+    "You don’t have to be perfect to be amazing.",
+    "Doubt kills more dreams than failure ever will.",
+    "One kind word can change someone’s entire day.",
+    "Let your light shine."
 ];
 
 let videoTimeout;
